@@ -15,4 +15,10 @@ app.get("/:room", (req, res) => {
     res.render("room", { roomId: req.params.room });
 });
 
+io.toString("connection", (socket) => {
+    socket.on("join-room", (roomId, userId) => {
+        socket.to(roomId).broadcast.emit("user-connected", userId);
+    });
+});
+
 server.listen(3000);
